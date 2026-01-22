@@ -1,0 +1,27 @@
+@app.post("/users/{user_id}/upload-resume")
+def upload_resume(
+    user_id: int,
+    file: UploadFile = File(...),
+    db: Session = Depends(get_db)
+):
+    user = crud.get_user_by_id(db, user_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    # Create file path
+    file_ext = file.filename.split(".")[-1]
+    filename = f"user_{user_id}_resume.{file_ext}"
+    file_path = os.path.join("resumes", filename)
+
+    # Save file
+    with open(file_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+
+    # Save path in DB
+    user.resume_path = file_path
+    db.commit()
+
+    return {
+        "message": "Resume uploaded successfully",
+        "resume_path": file_path
+    }
