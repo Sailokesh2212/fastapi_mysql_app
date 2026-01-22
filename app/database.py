@@ -3,10 +3,8 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-DATABASE_URL = os.getenv(
-    "DATABASE_URL",
-    "mysql+pymysql://fastapi_user:fastapi_pass@localhost:3306/fastapi_db",
-)
+DATABASE_URL = os.getenv(postgresql://fastapi_db_eq51_user:ExMoSDWULrWbThJ03g9uE1agtIKsq31S@dpg-d5p2kutactks7395fm90-a/fastapi_db_eq51)
+
 
 engine = create_engine(
     DATABASE_URL,
